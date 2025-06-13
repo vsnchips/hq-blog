@@ -1,15 +1,8 @@
 import './style.css';
-import techConference2025 from './posts/tech-conference-2025';
-import softwareEngineerInterview from './posts/software-engineer-interview';
-import latestSoftwareDevelopment from './posts/latest-software-development';
-import futureTechExhibition from './posts/future-tech-exhibition';
-
-const blogPosts = [
-  techConference2025,
-  softwareEngineerInterview,
-  latestSoftwareDevelopment,
-  futureTechExhibition,
-];
+// Import all blog posts dynamically
+const blogPosts = Object.values(import.meta.glob('../public/posts/*.ts', { eager: true }))
+  .map(module => (module as any).default)
+  .filter(post => post !== undefined);
 
 // Generate blog post HTML
 const generateBlogPostHTML = (post) => {

@@ -8,4 +8,10 @@ export default defineConfig({
       '.ts': 'application/javascript',
     },
   },
+  base: '/hq-blog/',
+  build: {
+    rollupOptions: {
+      input: './index.html',
+    },
+  },
 });
