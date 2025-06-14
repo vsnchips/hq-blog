@@ -4,7 +4,7 @@
     `,visible:!0},u=Object.freeze(Object.defineProperty({__proto__:null,default:c},Symbol.toStringTag,{value:"Module"})),d={title:"Upcoming Event: Tech Conference 2025",tags:["upcoming event"],content:"Join us for the annual tech conference...",visible:!0},f=Object.freeze(Object.defineProperty({__proto__:null,default:d},Symbol.toStringTag,{value:"Module"})),g={title:"LightSmith Visuals",tags:["interview"],content:`	
   Jesse Hermans Aka LightSmith Visuals is a Wellington based VJ.
   Here, we dive into his background, his work, and his thoughts on the VJ scene.
-  `,visible:!1},_=Object.freeze(Object.defineProperty({__proto__:null,default:g},Symbol.toStringTag,{value:"Module"})),b={title:"Cable Management Presents: Unfolding",tags:["upcoming","event","ikona","nani"],post_date:"2025-06-14",content:`Cable Management is the new event series hatched by Nani and Peter Ikona.
+  `,visible:!0},_=Object.freeze(Object.defineProperty({__proto__:null,default:g},Symbol.toStringTag,{value:"Module"})),b={title:"Cable Management Presents: Unfolding",tags:["upcoming","event","ikona","nani"],post_date:"2025-06-14",content:`Cable Management is the new event series hatched by Nani and Peter Ikona.
   `,visible:!0},p=Object.freeze(Object.defineProperty({__proto__:null,default:b},Symbol.toStringTag,{value:"Module"})),v={title:"VMPW: Visual Music Performance Workstation",tags:["software"],content:`
   Visual Music Performance Workstation is a new tool for VJs, aiming for the sweet spot between TouchDesigner and Resolume. 
   `,visible:!0},m=Object.freeze(Object.defineProperty({__proto__:null,default:v},Symbol.toStringTag,{value:"Module"})),h=Object.values([a,u,f,_,p,m]).map(t=>t.default).filter(t=>t!==void 0),y=t=>t.visible?`

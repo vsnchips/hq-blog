@@ -5,5 +5,5 @@ export default {
   Jesse Hermans Aka LightSmith Visuals is a Wellington based VJ.
   Here, we dive into his background, his work, and his thoughts on the VJ scene.
   `,
-  visible: false
+  visible: true
 };
