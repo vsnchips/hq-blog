@@ -1,6 +1,6 @@
 import './style.css';
 // Import all blog posts dynamically
-const blogPosts = Object.values(import.meta.glob('../public/posts/*.ts', { eager: true }))
+const blogPosts = Object.values(import.meta.glob('../public/posts/**/*.ts', { eager: true }))
   .map(module => (module as any).default)
   .filter(post => post !== undefined);
 
