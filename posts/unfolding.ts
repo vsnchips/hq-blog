@@ -5,5 +5,5 @@ export default {
   content:
     `Cable Management is the new event series hatched by Nani and Peter Ikona.
   `,
-  visible: true
+  visible: false
 };
