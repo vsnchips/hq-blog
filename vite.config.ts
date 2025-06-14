@@ -8,7 +8,7 @@ export default defineConfig({
       '.ts': 'application/javascript',
     },
   },
-  base: '/hq-blog/',
+  base: '/',
   build: {
     rollupOptions: {
       input: './index.html',
