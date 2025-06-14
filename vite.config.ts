@@ -2,11 +2,12 @@ import { defineConfig } from 'vite';
 import ts from 'vite-plugin-ts';
 
 export default defineConfig({
-  plugins: [ts()],
+  plugins: [
+    ts(),
+    // viteStaticCopy removed for public/hq-promo-assets and public/events
+  ],
   server: {
-    mimeTypes: {
-      '.ts': 'application/javascript',
-    },
+    // Removed invalid mimeTypes property
   },
   base: '/',
   build: {

@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node copy-referenced-assets.js",
     "predeploy": "npm run build",
     "preview": "vite preview",
-    "deploy": "npx gh-pages -d dist"
+    "deploy": "npx gh-pages -d dist --cname hqhq.nz"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
+    "glob": "^11.0.3",
     "typescript": "~5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-static-copy": "^3.0.0"
   },
   "homepage": "https://vsnchips.github.io/hq-blog",
   "dependencies": {
