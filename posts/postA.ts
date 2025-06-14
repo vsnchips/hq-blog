@@ -1,6 +1,9 @@
 export default {
-  title: 'Interview with a Software Engineer',
+  title: 'LightSmith Visuals',
   tags: ['interview'],
-  content: 'Insights into the life of a software engineer...',
+  content: `	
+  Jesse Hermans Aka LightSmith Visuals is a Wellington based VJ.
+  Here, we dive into his background, his work, and his thoughts on the VJ scene.
+  `,
   visible: false
 };
