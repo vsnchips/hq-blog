@@ -4,5 +4,5 @@ export default {
     content: `	
     Eve aka 4EVA is an up an coming VJ
     `,
-    visible: true
+    visible: false
   };
