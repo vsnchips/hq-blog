@@ -8,7 +8,7 @@
   `,visible:!0},k=Object.freeze(Object.defineProperty({__proto__:null,default:w},Symbol.toStringTag,{value:"Module"})),P={title:"Cable Management Presents: Unfolding",tags:["upcoming","event","ikona","nani"],post_date:"2025-06-14",content:`Cable Management is the new event series hatched by Nani and Peter Ikona.
   `,visible:!0},$=Object.freeze(Object.defineProperty({__proto__:null,default:P},Symbol.toStringTag,{value:"Module"})),S={title:"VMPW: Visual Music Performance Workstation",tags:["software"],content:`
   Visual Music Performance Workstation is a new tool for VJs, aiming for the sweet spot between TouchDesigner and Resolume. 
-  `,visible:!0},O=Object.freeze(Object.defineProperty({__proto__:null,default:S},Symbol.toStringTag,{value:"Module"})),d={title:"About Hyperqualia HQ",content:`
+  `,visible:!0},O=Object.freeze(Object.defineProperty({__proto__:null,default:S},Symbol.toStringTag,{value:"Module"})),d={title:"About us",content:`
     <p>Welcome to the HyperQualia collective.
  We are a network of live digital artists, and this is our blog.
 
