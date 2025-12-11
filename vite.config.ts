@@ -8,6 +8,8 @@ export default defineConfig({
   ],
   server: {
     // Removed invalid mimeTypes property
+    host: '0.0.0.0',
+    port: 5174,
   },
   base: '/',
   build: {

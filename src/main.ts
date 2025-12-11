@@ -46,14 +46,14 @@ function renderNav() {
 
 function renderTagFilters() {
   return `
-    <div class="tag-filters">
-      ${PRIMARY_TAGS.map(tag => `
-        <label class="tag-checkbox" data-tag="${tag}">
-          <input type="checkbox" value="${tag}" ${selectedTags.has(tag) ? 'checked' : ''} />
-          <span>${tag}</span>
-        </label>
-      `).join('')}
-      <button class="clear-filters" type="button">Clear Filters</button>
+  <div class="tag-filters">
+  <button class="clear-filters" type="button">all</button>
+  ${PRIMARY_TAGS.map(tag => `
+    <label class="tag-checkbox" data-tag="${tag}">
+    <input type="checkbox" value="${tag}" ${selectedTags.has(tag) ? 'checked' : ''} />
+    <span>${tag}</span>
+    </label>
+    `).join('')}
     </div>
   `;
 }
