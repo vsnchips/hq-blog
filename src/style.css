@@ -166,6 +166,12 @@ button:focus-visible {
   gap: 2em;
   margin-top: 0.5em;
 }
+.nav-link-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+}
 .nav-link {
   font-family: 'Directive Four', 'Arial', sans-serif;
   color: var(--color-nav-link);
@@ -177,16 +183,37 @@ button:focus-visible {
   text-decoration: none;
   padding: 0.2em 0.5em;
   border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
   position: relative;
   z-index: 1;
   box-shadow: 0 1px 4px var(--color-shadow);
+}
+
+.nav-link.disabled {
+  opacity: 0.4;
+  color: #888;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.coming-soon {
+  font-size: 0.7em;
+  color: #888;
+  font-style: italic;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
 }
 
 .nav-link.active, .nav-link:hover {
   background: var(--color-nav-link-active-bg);
   color: var(--color-nav-link-active);
   box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.nav-link.disabled.active, .nav-link.disabled:hover {
+  background: var(--color-nav-link-bg);
+  color: #888;
+  box-shadow: 0 1px 4px var(--color-shadow);
 }
 .tag-filters {
   display: flex;

@@ -29,16 +29,24 @@ const PRIMARY_TAGS = ["upcoming", "event", "interview", "software"];
 
 // State for selected tags
 let selectedTags = new Set(); // All filters cleared by default
-let currentPage = 'blog';
+let currentPage = 'about';
 
 function renderNav() {
   return `
     <nav class="main-nav">
       <a href="#" class="nav-logo"><span class="logo-text">HQ</span></a>
       <div class="nav-links">
-        <a href="#" class="nav-link${currentPage === 'blog' ? ' active' : ''}" data-page="blog">blog</a>
-        <a href="#about" class="nav-link${currentPage === 'about' ? ' active' : ''}" data-page="about">about</a>
-        <a href="#network" class="nav-link${currentPage === 'network' ? ' active' : ''}" data-page="network">network</a>
+        <div class="nav-link-wrapper">
+          <a href="#" class="nav-link disabled${currentPage === 'blog' ? ' active' : ''}" data-page="blog">blog</a>
+          <span class="coming-soon">opening soon</span>
+        </div>
+        <div class="nav-link-wrapper">
+          <a href="#about" class="nav-link${currentPage === 'about' ? ' active' : ''}" data-page="about">about</a>
+        </div>
+        <div class="nav-link-wrapper">
+          <a href="#network" class="nav-link disabled${currentPage === 'network' ? ' active' : ''}" data-page="network">network</a>
+          <span class="coming-soon">opening soon</span>
+        </div>
       </div>
     </nav>
   `;
