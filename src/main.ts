@@ -1,4 +1,6 @@
-import './style.css';
+// import './style-orange.css';
+import './style-ice.css';
+// import './style.css';
 
 // Detect if running in Vite dev server
 const IS_DEV = !!import.meta.env.DEV;
@@ -34,7 +36,6 @@ let currentPage = 'about';
 function renderNav() {
   return `
     <nav class="main-nav">
-      <a href="#" class="nav-logo"><span class="logo-text">HQ</span></a>
       <div class="nav-links">
         <div class="nav-link-wrapper">
           <a href="#" class="nav-link disabled${currentPage === 'blog' ? ' active' : ''}" data-page="blog">blog</a>

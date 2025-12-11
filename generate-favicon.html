@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HQ Favicon Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Neuropol';
+            src: local('Neuropol'),
+                local('Neuropol X'),
+                url('/fonts/Neuropol.ttf') format('truetype'),
+                url('/fonts/Neuropol.otf') format('opentype'),
+                url('/fonts/Neuropol.woff') format('woff'),
+                url('/fonts/Neuropol.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: block;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        /* Test element to force font load */
+        #fontTest {
+            position: absolute;
+            left: -9999px;
+            font-family: 'Neuropol', Arial;
+            font-size: 100px;
+            font-weight: 700;
+        }
+
+        canvas {
+            border: 2px solid #00d4ff;
+            margin: 20px;
+        }
+
+        button {
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #00a8cc;
+        }
+
+        .info {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .font-status {
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .font-loaded {
+            color: #00d4ff;
+        }
+
+        .font-missing {
+            color: #ff9100;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="fontTest">HQ</div>
+    <div class="info">
+        <h1>HQ Favicon Generator</h1>
+        <p>Click the buttons below to download favicon images</p>
+        <div id="fontStatus" class="font-status">Checking font...</div>
+    </div>
+
+    <canvas id="favicon512" width="512" height="512"></canvas>
+
+    <div>
+        <button onclick="downloadFavicon(512, 'favicon-512.png')">Download 512x512</button>
+        <button onclick="downloadFavicon(256, 'favicon-256.png')">Download 256x256</button>
+        <button onclick="downloadFavicon(128, 'favicon-128.png')">Download 128x128</button>
+        <button onclick="downloadFavicon(64, 'favicon-64.png')">Download 64x64</button>
+        <button onclick="downloadFavicon(32, 'favicon-32.png')">Download 32x32</button>
+        <button onclick="downloadFavicon(16, 'favicon-16.png')">Download 16x16</button>
+    </div>
+
+    <script>
+        let usedFont = 'Neuropol';
+
+        // Force font load and wait
+        async function loadFonts() {
+            try {
+                // Try to load Neuropol from system fonts using local()
+                await document.fonts.load('700 48px Neuropol');
+
+                // Give it extra time to load
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Test if Neuropol is actually loaded
+                const testCanvas = document.createElement('canvas');
+                const testCtx = testCanvas.getContext('2d');
+
+                // Measure with Neuropol
+                testCtx.font = '700 100px Neuropol, Arial';
+                const neuropolMetrics = testCtx.measureText('HQ');
+
+                // Measure with Arial fallback
+                testCtx.font = '700 100px Arial';
+                const arialMetrics = testCtx.measureText('HQ');
+
+                console.log('Neuropol width:', neuropolMetrics.width);
+                console.log('Arial width:', arialMetrics.width);
+
+                // If widths are different, Neuropol loaded
+                if (Math.abs(neuropolMetrics.width - arialMetrics.width) > 2) {
+                    usedFont = 'Neuropol';
+                    document.getElementById('fontStatus').innerHTML =
+                        '<span class="font-loaded">✓ Using Neuropol font (system font detected)</span>';
+                    console.log('Using Neuropol');
+                } else {
+                    usedFont = 'Orbitron';
+                    document.getElementById('fontStatus').innerHTML =
+                        '<span class="font-missing">⚠ Neuropol not detected, using Orbitron<br>' +
+                        '<small>The site uses your system\'s installed Neuropol. For favicons, add font to /public/fonts/</small></span>';
+                    console.log('Falling back to Orbitron');
+                }
+            } catch (e) {
+                console.error('Font load error:', e);
+                usedFont = 'Orbitron';
+            }
+
+            const canvas512 = document.getElementById('favicon512');
+            drawHQLogo(canvas512, 512);
+        }
+
+        // Wait for everything to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadFonts);
+        } else {
+            loadFonts();
+        } function drawHQLogo(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+
+            // Background with gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, 'rgba(0, 212, 255, 0.15)');
+            gradient.addColorStop(1, 'rgba(10, 10, 10, 0.95)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Border with glow
+            ctx.strokeStyle = 'rgba(0, 212, 255, 0.4)';
+            ctx.lineWidth = size * 0.01;
+            ctx.strokeRect(0, 0, size, size);
+
+            // Add subtle inner glow
+            ctx.shadowColor = 'rgba(0, 212, 255, 0.6)';
+            ctx.shadowBlur = size * 0.05;
+
+            // Draw "HQ" text with Neuropol or Orbitron font
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `700 ${size * 0.45}px ${usedFont}, Neuropol, Orbitron, Montserrat, Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Multiple text shadows for glow effect
+            ctx.shadowColor = 'rgba(0, 212, 255, 0.8)';
+            ctx.shadowBlur = size * 0.08;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+            ctx.fillText('HQ', size / 2, size / 2);
+
+            // Add second layer for extra brightness
+            ctx.shadowBlur = size * 0.15;
+            ctx.fillText('HQ', size / 2, size / 2);
+
+            // Reset shadow for border
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+        }
+
+        function downloadFavicon(size, filename) {
+            const tempCanvas = document.createElement('canvas');
+
+            // Use the same font that was detected
+            drawHQLogo(tempCanvas, size);
+
+            tempCanvas.toBlob(function (blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+    </script>
+</body>
+
+</html>
