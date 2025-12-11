@@ -5,21 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HQ Favicon Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=block" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Neuropol';
-            src: local('Neuropol'),
-                local('Neuropol X'),
-                url('/fonts/Neuropol.ttf') format('truetype'),
-                url('/fonts/Neuropol.otf') format('opentype'),
-                url('/fonts/Neuropol.woff') format('woff'),
-                url('/fonts/Neuropol.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: block;
-        }
-
         body {
             background: #000;
             display: flex;
@@ -31,14 +20,7 @@
             color: white;
         }
 
-        /* Test element to force font load */
-        #fontTest {
-            position: absolute;
-            left: -9999px;
-            font-family: 'Neuropol', Arial;
-            font-size: 100px;
-            font-weight: 700;
-        }
+        /* Test element - removed, not needed */
 
         canvas {
             border: 2px solid #00d4ff;
@@ -85,16 +67,16 @@
 </head>
 
 <body>
-    <div id="fontTest">HQ</div>
     <div class="info">
         <h1>HQ Favicon Generator</h1>
         <p>Click the buttons below to download favicon images</p>
-        <div id="fontStatus" class="font-status">Checking font...</div>
+        <div id="fontStatus" class="font-status">Loading Orbitron font...</div>
     </div>
 
-    <canvas id="favicon512" width="512" height="512"></canvas>
+    <canvas id="favicon512" width="1200" height="1200"></canvas>
 
     <div>
+        <button onclick="downloadFavicon(1200, 'favicon-1200.png')">Download 1200x1200</button>
         <button onclick="downloadFavicon(512, 'favicon-512.png')">Download 512x512</button>
         <button onclick="downloadFavicon(256, 'favicon-256.png')">Download 256x256</button>
         <button onclick="downloadFavicon(128, 'favicon-128.png')">Download 128x128</button>
@@ -104,60 +86,113 @@
     </div>
 
     <script>
-        let usedFont = 'Neuropol';
-
-        // Force font load and wait
-        async function loadFonts() {
+        // Explicitly load Orbitron font before rendering
+        async function init() {
             try {
-                // Try to load Neuropol from system fonts using local()
-                await document.fonts.load('700 48px Neuropol');
+                document.getElementById('fontStatus').textContent = 'Loading Orbitron font...';
 
-                // Give it extra time to load
+                // Force load Orbitron at both weights
+                await document.fonts.load('700 48px Orbitron');
+                await document.fonts.load('900 48px Orbitron');
+
+                // Wait a bit more for good measure
                 await new Promise(resolve => setTimeout(resolve, 500));
 
-                // Test if Neuropol is actually loaded
-                const testCanvas = document.createElement('canvas');
-                const testCtx = testCanvas.getContext('2d');
+                console.log('Orbitron font loaded successfully');
 
-                // Measure with Neuropol
-                testCtx.font = '700 100px Neuropol, Arial';
-                const neuropolMetrics = testCtx.measureText('HQ');
+                const canvas512 = document.getElementById('favicon512');
+                drawHQLogo(canvas512, 1200);
 
-                // Measure with Arial fallback
-                testCtx.font = '700 100px Arial';
-                const arialMetrics = testCtx.measureText('HQ');
+                document.getElementById('fontStatus').innerHTML =
+                    '<span class="font-loaded">✓ Using Orbitron 900 font (matches site)</span>';
 
-                console.log('Neuropol width:', neuropolMetrics.width);
-                console.log('Arial width:', arialMetrics.width);
-
-                // If widths are different, Neuropol loaded
-                if (Math.abs(neuropolMetrics.width - arialMetrics.width) > 2) {
-                    usedFont = 'Neuropol';
-                    document.getElementById('fontStatus').innerHTML =
-                        '<span class="font-loaded">✓ Using Neuropol font (system font detected)</span>';
-                    console.log('Using Neuropol');
-                } else {
-                    usedFont = 'Orbitron';
-                    document.getElementById('fontStatus').innerHTML =
-                        '<span class="font-missing">⚠ Neuropol not detected, using Orbitron<br>' +
-                        '<small>The site uses your system\'s installed Neuropol. For favicons, add font to /public/fonts/</small></span>';
-                    console.log('Falling back to Orbitron');
-                }
-            } catch (e) {
-                console.error('Font load error:', e);
-                usedFont = 'Orbitron';
+            } catch (error) {
+                console.error('Font loading failed:', error);
+                document.getElementById('fontStatus').innerHTML =
+                    '<span class="font-missing">⚠ Font loading failed - check console</span>';
             }
-
-            const canvas512 = document.getElementById('favicon512');
-            drawHQLogo(canvas512, 512);
         }
 
-        // Wait for everything to be ready
+        // Wait for DOM to be ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadFonts);
+            document.addEventListener('DOMContentLoaded', init);
         } else {
-            loadFonts();
-        } function drawHQLogo(canvas, size) {
+            init();
+        }
+
+        function drawCymaticsPattern(ctx, size) {
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const maxRadius = size * 0.35; // Pattern fits within the icon
+
+            ctx.save();
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)'; // Very subtle white
+            ctx.lineWidth = size * 0.006; // Thicker strokes
+            ctx.lineCap = 'round';
+
+            // Draw central 4x4 grid pattern first
+            const gridSize = 4; // 4x4 grid matches the cymatics photo
+            const cellSize = (maxRadius * 2) / gridSize;
+            const cornerRadius = cellSize * 0.25;
+            const gridStartX = centerX - maxRadius;
+            const gridStartY = centerY - maxRadius;
+            const padding = cellSize * 0.20; // Balanced padding
+
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    const x = gridStartX + (col * cellSize) + padding;
+                    const y = gridStartY + (row * cellSize) + padding;
+                    const w = cellSize - (padding * 2);
+                    const h = cellSize - (padding * 2);
+
+                    // Draw rounded rectangle
+                    ctx.beginPath();
+                    ctx.moveTo(x + cornerRadius, y);
+                    ctx.lineTo(x + w - cornerRadius, y);
+                    ctx.quadraticCurveTo(x + w, y, x + w, y + cornerRadius);
+                    ctx.lineTo(x + w, y + h - cornerRadius);
+                    ctx.quadraticCurveTo(x + w, y + h, x + w - cornerRadius, y + h);
+                    ctx.lineTo(x + cornerRadius, y + h);
+                    ctx.quadraticCurveTo(x, y + h, x, y + h - cornerRadius);
+                    ctx.lineTo(x, y + cornerRadius);
+                    ctx.quadraticCurveTo(x, y, x + cornerRadius, y);
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+            }
+
+            // Draw outer wave rings that align with the 4x4 grid
+            // Key: Use 4 waves (or multiples of 4) to align with 4x4 grid structure
+            const waveRings = [
+                { radius: maxRadius * 1.20, waveCount: 4, amplitude: size * 0.020 },
+                { radius: maxRadius * 1.45, waveCount: 4, amplitude: size * 0.022 },
+                { radius: maxRadius * 1.72, waveCount: 4, amplitude: size * 0.024 },
+                { radius: maxRadius * 2.00, waveCount: 4, amplitude: size * 0.025 },
+                { radius: maxRadius * 2.30, waveCount: 4, amplitude: size * 0.026 }
+            ];
+
+            waveRings.forEach(ring => {
+                ctx.beginPath();
+                const segments = 200; // Smooth curve
+                for (let j = 0; j <= segments; j++) {
+                    const angle = (j / segments) * Math.PI * 2;
+                    // Using waveCount of 4 makes waves align with 4x4 grid
+                    const wave = Math.sin(angle * ring.waveCount) * ring.amplitude;
+                    const r = ring.radius + wave;
+                    const x = centerX + Math.cos(angle) * r;
+                    const y = centerY + Math.sin(angle) * r;
+
+                    if (j === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            });
+
+            ctx.restore();
+        }
+
+        function drawHQLogo(canvas, size) {
             const ctx = canvas.getContext('2d');
             canvas.width = size;
             canvas.height = size;
@@ -165,30 +200,59 @@
             // Clear canvas
             ctx.clearRect(0, 0, size, size);
 
-            // Background with gradient
+            // Clip to rounded rectangle
+            const borderRadius = size * 0.15; // 15% rounded corners
+            ctx.beginPath();
+            ctx.moveTo(borderRadius, 0);
+            ctx.lineTo(size - borderRadius, 0);
+            ctx.quadraticCurveTo(size, 0, size, borderRadius);
+            ctx.lineTo(size, size - borderRadius);
+            ctx.quadraticCurveTo(size, size, size - borderRadius, size);
+            ctx.lineTo(borderRadius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - borderRadius);
+            ctx.lineTo(0, borderRadius);
+            ctx.quadraticCurveTo(0, 0, borderRadius, 0);
+            ctx.closePath();
+            ctx.clip();
+
+            // Background with gradient - desaturated, greener cyan
             const gradient = ctx.createLinearGradient(0, 0, size, size);
-            gradient.addColorStop(0, 'rgba(0, 212, 255, 0.15)');
+            gradient.addColorStop(0, 'rgba(0, 140, 140, 0.10)'); // Greener cyan, moderate saturation
             gradient.addColorStop(1, 'rgba(10, 10, 10, 0.95)');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, size, size);
 
-            // Border with glow
-            ctx.strokeStyle = 'rgba(0, 212, 255, 0.4)';
+            // Border with glow - gray-green instead of bright cyan
+            ctx.strokeStyle = 'rgba(80, 120, 110, 0.3)'; // Gray-green glow
             ctx.lineWidth = size * 0.01;
-            ctx.strokeRect(0, 0, size, size);
+            ctx.beginPath();
+            ctx.moveTo(borderRadius, 0);
+            ctx.lineTo(size - borderRadius, 0);
+            ctx.quadraticCurveTo(size, 0, size, borderRadius);
+            ctx.lineTo(size, size - borderRadius);
+            ctx.quadraticCurveTo(size, size, size - borderRadius, size);
+            ctx.lineTo(borderRadius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - borderRadius);
+            ctx.lineTo(0, borderRadius);
+            ctx.quadraticCurveTo(0, 0, borderRadius, 0);
+            ctx.closePath();
+            ctx.stroke();
 
-            // Add subtle inner glow
-            ctx.shadowColor = 'rgba(0, 212, 255, 0.6)';
+            // Draw subtle cymatics pattern watermark behind text
+            drawCymaticsPattern(ctx, size);
+
+            // Add subtle inner glow - gray-green
+            ctx.shadowColor = 'rgba(80, 120, 110, 0.4)';
             ctx.shadowBlur = size * 0.05;
 
-            // Draw "HQ" text with Neuropol or Orbitron font
+            // Draw "HQ" text with Orbitron font (matches site)
             ctx.fillStyle = '#ffffff';
-            ctx.font = `700 ${size * 0.45}px ${usedFont}, Neuropol, Orbitron, Montserrat, Arial, sans-serif`;
+            ctx.font = `900 ${size * 0.45}px Orbitron, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            // Multiple text shadows for glow effect
-            ctx.shadowColor = 'rgba(0, 212, 255, 0.8)';
+            // Multiple text shadows for glow effect - gray-green instead of bright cyan
+            ctx.shadowColor = 'rgba(80, 120, 110, 0.6)'; // Gray-green glow
             ctx.shadowBlur = size * 0.08;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
@@ -220,6 +284,20 @@
             });
         }
     </script>
+</body>
+
+</html>
+
+tempCanvas.toBlob(function (blob) {
+const url = URL.createObjectURL(blob);
+const link = document.createElement('a');
+link.href = url;
+link.download = filename;
+link.click();
+URL.revokeObjectURL(url);
+});
+}
+</script>
 </body>
 
 </html>
