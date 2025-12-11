@@ -1,5 +1,5 @@
 export default {
-  title: 'About Hyperqualia HQ',
+  title: 'About us',
   content: `
     <p>Welcome to the HyperQualia collective.\n We are a network of live digital artists, and this is our blog.\n
     <p>Hyperqualia HQ is a blog about immersive and experiential media, visual music, and event production in New Zealand and beyond.</p>

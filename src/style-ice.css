@@ -62,7 +62,7 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('assets/20251026_054317.jpg');
+  background-image: url('/assets/octa-site_bg.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -77,9 +77,14 @@ body::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 40%, transparent 70%);
+  background-image: url('/assets/20251026_054317.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: 0.3;
+  mix-blend-mode: screen;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
 }
 
 h1 {
@@ -94,6 +99,7 @@ h1 {
   padding: 3rem 2rem;
   text-align: center;
   position: relative;
+  z-index: 1;
 }
 
 .logo {
@@ -393,7 +399,7 @@ button:focus-visible {
 .about-page,
 .network-page {
   background: rgba(10, 10, 10, 0.6);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 3em 2.5em;

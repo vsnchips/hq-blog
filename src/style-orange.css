@@ -68,7 +68,7 @@ body::before {
     background-position: center;
     background-attachment: fixed;
     opacity: 0.5;
-    z-index: -2;
+    z-index: 0;
 }
 
 body::after {
@@ -85,7 +85,7 @@ body::after {
     opacity: 0.3;
     mix-blend-mode: screen;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
 }
 
 h1 {
@@ -100,6 +100,7 @@ h1 {
     padding: 3rem 2rem;
     text-align: center;
     position: relative;
+    z-index: 1;
 }
 
 .logo {
