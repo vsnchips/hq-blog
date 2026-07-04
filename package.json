@@ -8,7 +8,7 @@
     "build": "vite build && node copy-referenced-assets.js",
     "predeploy": "npm run build",
     "preview": "vite preview",
-    "deploy": "npx gh-pages -d dist --cname hqhq.nz"
+    "deploy": "npx gh-pages -d dist"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
